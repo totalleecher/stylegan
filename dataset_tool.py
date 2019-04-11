@@ -340,7 +340,7 @@ def create_cifar10(tfrecord_dir, cifar10_dir):
     images = np.concatenate(images)
     labels = np.concatenate(labels)
     assert images.shape == (50000, 3, 32, 32) and images.dtype == np.uint8
-    assert labels.shape == (50000,) and labels.dtype == np.int32
+    assert labels.shape == (50000,)
     assert np.min(images) == 0 and np.max(images) == 255
     assert np.min(labels) == 0 and np.max(labels) == 9
     onehot = np.zeros((labels.size, np.max(labels) + 1), dtype=np.float32)
@@ -362,7 +362,7 @@ def create_cifar100(tfrecord_dir, cifar100_dir):
     images = data['data'].reshape(-1, 3, 32, 32)
     labels = np.array(data['fine_labels'])
     assert images.shape == (50000, 3, 32, 32) and images.dtype == np.uint8
-    assert labels.shape == (50000,) and labels.dtype == np.int32
+    assert labels.shape == (50000,)
     assert np.min(images) == 0 and np.max(images) == 255
     assert np.min(labels) == 0 and np.max(labels) == 99
     onehot = np.zeros((labels.size, np.max(labels) + 1), dtype=np.float32)
