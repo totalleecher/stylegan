@@ -73,7 +73,7 @@ def absolute_name_scope(scope: str) -> tf.name_scope:
 
 def absolute_variable_scope(scope: str, **kwargs) -> tf.compat.v1.variable_scope:
     """Forcefully enter the specified variable scope, ignoring any surrounding scopes."""
-    return tf.variable_scope(tf.VariableScope(name=scope, **kwargs), auxiliary_name_scope=False)
+    return tf.compat.v1.variable_scope(tf.compat.v1.variable_scope(name=scope, **kwargs), auxiliary_name_scope=False)
 
 
 def _sanitize_tf_config(config_dict: dict = None) -> dict:
@@ -121,7 +121,7 @@ def init_tf(config_dict: dict = None) -> None:
 
 def assert_tf_initialized():
     """Check that TensorFlow session has been initialized."""
-    if tf.get_default_session() is None:
+    if tf.compat.v1.get_default_session() is None:
         raise RuntimeError("No default TensorFlow session found. Please call dnnlib.tflib.init_tf().")
 
 

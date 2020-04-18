@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2019, NVIDIA CORPORATION. All rights reserved.
+# Copyright (c) 2019, NVIDIA CORPORATION. All rights reserved.
 #
 # This work is licensed under the Creative Commons Attribution-NonCommercial
 # 4.0 International License. To view a copy of this license, visit
@@ -139,7 +139,7 @@ class Network:
             self.name = self._build_func_name
         assert re.match("^[A-Za-z0-9_.\\-]*$", self.name)
         with tf.name_scope(None):
-            self.scope = tf.get_default_graph().unique_name(self.name, mark_as_used=True)
+            self.scope = tf.compat.v1.get_default_graph().unique_name(self.name, mark_as_used=True)
 
         # Finalize build func kwargs.
         build_kwargs = dict(self.static_kwargs)
@@ -147,11 +147,11 @@ class Network:
         build_kwargs["components"] = self.components
 
         # Build template graph.
-        with tfutil.absolute_variable_scope(self.scope, reuse=tf.AUTO_REUSE), tfutil.absolute_name_scope(self.scope):  # ignore surrounding scopes
-            assert tf.get_variable_scope().name == self.scope
+        with tfutil.absolute_variable_scope(self.scope, reuse=tf.compat.v1.AUTO_REUSE), tfutil.absolute_name_scope(self.scope):  # ignore surrounding scopes
+            assert tf.compat.v1.get_variable_scope().name == self.scope
             assert tf.get_default_graph().get_name_scope() == self.scope
             with tf.control_dependencies(None):  # ignore surrounding control dependencies
-                self.input_templates = [tf.placeholder(tf.float32, name=name) for name in self.input_names]
+                self.input_templates = [tf.compat.v1.placeholder(tf.float32, name=name) for name in self.input_names]
                 out_expr = self._build_func(*self.input_templates, **build_kwargs)
 
         # Collect outputs.
