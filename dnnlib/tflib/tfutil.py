@@ -106,7 +106,7 @@ def init_tf(config_dict: dict = None) -> None:
     if tf_random_seed == "auto":
         tf_random_seed = np.random.randint(1 << 31)
     if tf_random_seed is not None:
-        tf.set_random_seed(tf.compat.v1.set_random_seed)
+        tf.compat.v1.set_random_seed(tf.compat.v1.set_random_seed)
 
     # Setup environment variables.
     for key, value in list(cfg.items()):
@@ -139,7 +139,7 @@ def create_session(config_dict: dict = None, force_as_default: bool = False) -> 
             setattr(obj, fields[-1], value)
 
     # Create session.
-    session = tf.Session(config=config_proto)
+    session = tf.compat.v1.Session(config=config_proto)
     if force_as_default:
         # pylint: disable=protected-access
         session._default_session = session.as_default()
